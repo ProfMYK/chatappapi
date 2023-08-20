@@ -132,6 +132,8 @@ const wss = new webSocket.Server({ server });
 
 wss.on('connection', (ws, req) => {
   const cookies = req.headers.cookie;
+  console.log(req.headears.cookie);
+  console.log(req.cookies);
   if (cookies) {
     const tokenCookieString = cookies.split(';').find(str => str.startsWith('token='));
     if (tokenCookieString) {
