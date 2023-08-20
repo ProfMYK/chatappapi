@@ -49,8 +49,10 @@ app.post('/register', async (req, res) => {
   const hashedPassword = await bcyrpt.hash(req.body.password, saltRounds);
   const { username, password } = req.body;
   User.create({ username, password:hashedPassword }).then((user) => {
+    console.log("outside jwt")
     jwt.sign({ _id: user._id, username: user.username }, process.env.JWT_SECRET, {}, (err, token) => {
       if (err) throw err;
+      console.log("inside jwt")
       res.cookie('token', token, { sameSite: 'none', secure: true }).status(201).json({ id: user._id });
     });
   }).catch((err) => {
