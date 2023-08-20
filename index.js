@@ -129,7 +129,7 @@ const httpsServer = https.createServer(options, app);
 httpsServer.listen(4000, () => {
   console.log('HTTPS Server running on port 4000');
 });
-const server = http.createServer(app);
+const server = https.createServer(options, app);
 const wss = new webSocket.Server({ server });
 
 wss.on('connection', (ws, req) => {
