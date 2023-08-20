@@ -1,6 +1,8 @@
 const express = require('express');
 const webSocket = require('ws');
 const http = require('http');
+const https = require('https');
+const fs = require('fs');
 const mongoose = require('mongoose');
 const bcyrpt = require('bcrypt');
 require('dotenv').config();
@@ -9,6 +11,13 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const Message = require('./models/Message');
 const cookieParser = require('cookie-parser');
+
+const key = fs.readFileSync(__dirname + '/certs/selfsigned.key');
+const cert = fs.readFileSync(__dirname + '/certs/selfsigned.crt');
+const options = {
+  key,
+  cert,
+};
 
 const saltRounds = 10;
 
@@ -114,8 +123,10 @@ app.get('/profile', async (req, res) => {
   });
 });
 
-app.listen(4000);
-
+const httpsServer = https.createServer(options, app);
+httpsServer.listen(4000, () => {
+  console.log('HTTPS Server running on port 4000');
+});
 const server = http.createServer(app);
 const wss = new webSocket.Server({ server });
 
