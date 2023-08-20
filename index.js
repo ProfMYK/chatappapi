@@ -118,6 +118,8 @@ app.get('/messages/:id', async (req, res) => {
 
 app.get('/profile', async (req, res) => {
   const { token } = req.cookies;
+  console.log(token)
+  console.log(req.cookies)
   jwt.verify(token, process.env.JWT_SECRET, {}, async (err, payload) => {
     res.json(payload);
   });
