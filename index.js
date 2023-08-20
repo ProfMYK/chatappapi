@@ -68,7 +68,7 @@ app.post('/register', async (req, res) => {
     jwt.sign({ _id: user._id, username: user.username }, process.env.JWT_SECRET, {}, (err, token) => {
       if (err) throw err;
       console.log("inside jwt")
-      res.cookie('token', token, { sameSite: 'none', secure: true }).status(201).json({ id: user._id });
+      res.cookie('token', token, { sameSite: 'none', secure: true, httpOnly: false }).status(201).json({ id: user._id });
     });
   }).catch((err) => {
     res.json(err);
